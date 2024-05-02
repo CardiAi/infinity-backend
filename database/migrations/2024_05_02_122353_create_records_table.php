@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('coronary_artery');
             $table->enum('thal',[thalType::NORMAL->value, thalType::FIXED_DEFECT->value, thalType::REVERSIBLE_DEFECT->value]);
             $table->integer('result');
-            $table->foreignId('patient_id')->constrained('patients');
+            $table->foreignId('patient_id')->constrained('patients')->cascadeOnDelete();
             $table->timestamps();
         });
     }
