@@ -26,9 +26,9 @@ class ApiResponseClass
             'success' => false,
             'message'    => $errors
         ];
-        if(!empty($message)){
-            $response['message'] = $message;
-        }
+        // if(!empty($message)){
+        //     $response['message'] = $message;
+        // }
         return response()->json($response, $code);
     }
 

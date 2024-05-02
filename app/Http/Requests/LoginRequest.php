@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Classes\ApiResponseClass;
 use Illuminate\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -39,7 +40,7 @@ class LoginRequest extends FormRequest
         throw new HttpResponseException(response()->json([
             'success'   => false,
             'message'   => 'Validation errors',
-            'data'      => $validator->errors()
-        ]));
+            'errors'      => $validator->errors()
+        ],400));
     }
 }
