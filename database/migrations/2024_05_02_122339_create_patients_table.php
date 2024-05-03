@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->enum('gender',[GenderType::MALE->value, GenderType::FEMALE->value]);
             $table->integer('age');
-            $table->date('last_record_date');
-            $table->integer('last_result');
+            $table->date('last_record_date')->nullable();
+            $table->integer('last_result')->nullable();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });

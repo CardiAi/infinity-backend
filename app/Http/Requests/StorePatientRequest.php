@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Http\Request;
+use App\Enums\Enums\GenderType;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Enums\Enums\GenderType;
+use Illuminate\Http\Request;
 
-class UpdatePatientRequest extends FormRequest
+class StorePatientRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,9 @@ class UpdatePatientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|string|max:50',
-            'gender' => ['sometimes','required',Rule::enum(GenderType::class)],
-            'age' => 'sometimes|required|numeric'
+            'name' => 'required|string|max:50',
+            'gender' => ['required',Rule::enum(GenderType::class)],
+            'age' => 'required|numeric'
         ];
     }
     /**
