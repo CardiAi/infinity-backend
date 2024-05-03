@@ -2,13 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\Enums\ChestPainType;
-use App\Enums\Enums\ecgResult;
-use App\Enums\Enums\slopeResult;
-use App\Enums\Enums\thalType;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use App\Enums\Enums\thalType;
+use App\Enums\Enums\ecgResult;
 use Illuminate\Validation\Rule;
+use App\Enums\Enums\slopeResult;
+use App\Enums\Enums\ChestPainType;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreRecordRequest extends FormRequest
 {
@@ -40,5 +41,19 @@ class StoreRecordRequest extends FormRequest
             'coronary_artery' => 'required|numeric',
             'thal' => ['required', Rule::enum(thalType::class)],
         ];
+    }
+    /**
+     * Handle a failed validation attempt.
+     *
+     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @return void
+     */
+    protected function failedValidation(\Illuminate\Contracts\Validation\Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success'   => false,
+            'message'   => 'Validation errors',
+            'errors'      => $validator->errors()
+        ],400));
     }
 }
