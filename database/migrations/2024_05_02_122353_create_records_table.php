@@ -18,11 +18,11 @@ return new class extends Migration
         Schema::create('records', function (Blueprint $table) {
             $table->id();
             $table->enum('chest_pain', [ChestPainType::TYPICAL_ANGINA->value, ChestPainType::ATYPICAL_ANGINA->value, ChestPainType::NON_ANGINAL->value, ChestPainType::ASYMPTOMATIC->value]);
-            $table->integer('blood_pressure');
-            $table->integer('cholesterol');
+            $table->integer('blood_pressure')->nullable();
+            $table->integer('cholesterol')->nullable();
             $table->integer('blood_sugar');
             $table->enum('ecg',[ecgResult::NORMAL->value, ecgResult::STT_ABNORMALITY->value,
-            ecgResult::LV_HYPERTROPHY->value]);
+            ecgResult::LV_HYPERTROPHY->value])->nullable();
             $table->integer('max_thal');
             $table->boolean('exercise_angina');
             $table->decimal('old_peak');

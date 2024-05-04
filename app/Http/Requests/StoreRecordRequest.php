@@ -30,10 +30,10 @@ class StoreRecordRequest extends FormRequest
     {
         return [
             'chest_pain' => ['required', Rule::enum(ChestPainType::class)],
-            'blood_pressure' => 'required|numeric',
-            'cholesterol' => 'required|numeric',
+            'blood_pressure' => 'nullable|numeric',
+            'cholesterol' => 'nullable|numeric',
             'blood_sugar' => 'required|numeric',
-            'ecg' => ['required', Rule::enum(ecgResult::class)],
+            'ecg' => ['nullable', Rule::enum(ecgResult::class)],
             'max_thal' => 'required|numeric',
             'exercise_angina' => 'required|boolean',
             'old_peak' => 'required|numeric',

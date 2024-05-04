@@ -31,6 +31,7 @@ class RecordController extends Controller
             return ApiResponseClass::throw('Invalid ID', 404);
         }
         $validated = $request->validated();
+        $validated['age'] = $patient->age;
         //send validated data to model
         $result = 2;
         if($result){ //validate result
