@@ -15,7 +15,7 @@ class PatientController extends Controller
     public function index(Request $request){
         $patients = $request->user()->patients()->paginate(10);
         if(!$patients->isNotEmpty()){
-            return ApiResponseClass::sendResponse([],'No data found');
+            return ApiResponseClass::sendResponse((object)[],'No data found');
         }
         return ApiResponseClass::sendResponse(PatientResource::collection($patients)->response()->getData(true),'');
     }

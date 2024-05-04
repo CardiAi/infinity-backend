@@ -20,7 +20,7 @@ class RecordController extends Controller
         }
         $records = $patient->records()->paginate(10);
         if(!$records->isNotEmpty()){
-            return ApiResponseClass::sendResponse([],'No data found');
+            return ApiResponseClass::sendResponse((object)[],'No data found');
         }
         return ApiResponseClass::sendResponse(RecordResource::collection($records)->response()->getData(true),'');
     }
