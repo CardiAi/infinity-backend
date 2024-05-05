@@ -10,6 +10,7 @@ use App\Http\Requests\StoreRecordRequest;
 use App\Http\Resources\RecordResource;
 use App\Models\Record;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class RecordController extends Controller
 {
@@ -31,19 +32,38 @@ class RecordController extends Controller
             return ApiResponseClass::throw('Invalid ID', 404);
         }
         $validated = $request->validated();
-        $validated['age'] = $patient->age;
+        $data = [
+            'chest_pain' => $validated['chest_pain'],
+            'blood_pressure' => $validated['blood_pressure']? (int)$validated['blood_pressure']: null,
+            'cholesterol' => $validated['cholesterol']? (int)$validated['cholesterol']: null,
+            'blood_sugar' => $validated['blood_sugar']>20? true: false,
+            'ecg' => $validated['ecg']? (int)$validated['ecg']: null,
+            'max_thal' => (int)$validated['max_thal'],
+            'exercise_angina' => $validated['exercise_angina'] = 0? false: true,
+            'old_peak' =>(float)$validated['old_peak'],
+            'slope' => $validated['slope'],
+            'coronary_artery' => (int)$validated['coronary_artery'],
+            'thal' => $validated['thal'],
+            'age' => $patient->age,
+            'gender' => $patient->gender
+        ];
+        //return $data;
         //send validated data to model
-        $result = 2;
-        if($result){ //validate result
-            $validated['result'] = $result;
-            $record = DB::transaction(function () use ($validated, $patient){
-                $record = $patient->records()->create($validated);
-                $patient->last_record_date = now();
-                $patient->last_result = $validated['result'];
-                $patient->save();
-                return $record;
-            });
-            return ApiResponseClass::sendResponse(new RecordResource($record),'Record Added Successfully');
+        $response = Http::accept('application/json')->post('https://cardiai-model-c5006df9a332.herokuapp.com/predict',$data);
+        if(isset($response['prediction'])){
+            $result = $response['prediction'];
+            if($result && ($result >= 0 && $result < 5)){ //validate result
+                $data['result'] = $result;
+                $record = DB::transaction(function () use ($data, $patient){
+                    $record = $patient->records()->create($data);
+                    $patient->last_record_date = now();
+                    $patient->last_result = $data['result'];
+                    $patient->save();
+                    return $record;
+                });
+                return ApiResponseClass::sendResponse(new RecordResource($record),'Record Added Successfully');
+            }
+            return ApiResponseClass::throw('Something Went Wrong!', 500);
         }
         return ApiResponseClass::throw('Something Went Wrong!', 500);
 

@@ -26,7 +26,7 @@ class RecordResource extends JsonResource
             'coronary_artery' => $this->coronary_artery,
             'thal' => $this->thal,
             'result' => $this->result,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at? $this->created_at->format('Y-m-d'): null
         ];
     }
 }

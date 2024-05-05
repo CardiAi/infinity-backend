@@ -31,15 +31,26 @@ class StoreRecordRequest extends FormRequest
         return [
             'chest_pain' => ['required', Rule::enum(ChestPainType::class)],
             'blood_pressure' => 'nullable|numeric',
-            'cholesterol' => 'nullable|numeric',
-            'blood_sugar' => 'required|numeric',
+            'cholesterol' => 'nullable|integer',
+            'blood_sugar' => 'required|integer',
             'ecg' => ['nullable', Rule::enum(ecgResult::class)],
             'max_thal' => 'required|numeric',
             'exercise_angina' => 'required|boolean',
             'old_peak' => 'required|numeric',
             'slope' => ['required', Rule::enum(slopeResult::class)],
-            'coronary_artery' => 'required|numeric',
+            'coronary_artery' => 'required|numeric|in:0,1,2,3',
             'thal' => ['required', Rule::enum(thalType::class)],
+        ];
+    }
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'coronary_artery.in' => 'The selected coronary artery is invalid. Must be inside [0:3]',
         ];
     }
     /**

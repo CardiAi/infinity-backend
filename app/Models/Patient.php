@@ -11,7 +11,7 @@ class Patient extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'gender', 'age', 'last_record_date', 'last_result', 'user_id'];
-
+    protected $dates = ['created_at'];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
