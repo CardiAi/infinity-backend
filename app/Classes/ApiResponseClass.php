@@ -35,7 +35,7 @@ class ApiResponseClass
     public static function sendResponse($result , $message ,$code=200){
         $response=[
             'success' => true,
-            'content'    => $result
+            'data'    => $result
         ];
         if(!empty($message)){
             $response['message'] = $message;
