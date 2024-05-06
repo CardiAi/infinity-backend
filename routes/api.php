@@ -28,6 +28,7 @@ Route::controller(PatientController::class)->middleware('auth:sanctum')->group(f
 
 Route::controller(RecordController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/patient/{id}/records', 'index');
+    Route::get('/record/show/{id}', 'show');
     Route::post('/patient/{id}/record/add', 'store');
 });
 

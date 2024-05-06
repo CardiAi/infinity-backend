@@ -26,6 +26,14 @@ class RecordController extends Controller
         return ApiResponseClass::sendResponse(RecordResource::collection($records)->response()->getData(true),'');
     }
 
+    public function show($id){
+        $record = Record::find($id);
+        if(!$record){
+            return ApiResponseClass::throw('Invalid ID', 404);
+        }
+        return ApiResponseClass::sendResponse(new RecordResource($record),'Record Retrieved Successfully');
+    }
+
     public function store(StoreRecordRequest $request, $id){
         $patient = Patient::find($id);
         if(!$patient){

@@ -15,6 +15,7 @@ class RecordResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'chest_pain' => $this->chest_pain,
             'blood_pressure' => $this->blood_pressure,
             'cholesterol' => $this->cholesterol,
