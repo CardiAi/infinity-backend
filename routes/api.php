@@ -20,6 +20,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(PatientController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/patients', 'index');
+    Route::get('/patient/show/{id}', 'show');
     Route::post('/patient/add', 'store');
     Route::put('/patient/edit/{id}', 'update');
     Route::delete('/patient/delete/{id}', 'destroy');
@@ -32,4 +33,9 @@ Route::controller(RecordController::class)->middleware('auth:sanctum')->group(fu
 
 Route::get('test', function(){
     return "testing";
+});
+
+
+Route::fallback(function () {
+    return ApiResponseClass::throw('Not Found', 404);
 });
