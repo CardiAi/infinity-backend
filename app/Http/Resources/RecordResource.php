@@ -18,6 +18,7 @@ class RecordResource extends JsonResource
             'id' => $this->id,
             'chest_pain' => $this->chest_pain,
             'blood_pressure' => $this->blood_pressure,
+            'ecg' => $this->ecg,
             'cholesterol' => $this->cholesterol,
             'blood_sugar' => $this->blood_sugar,
             'max_thal' => $this->max_thal,
