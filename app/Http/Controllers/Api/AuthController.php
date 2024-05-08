@@ -10,6 +10,7 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,7 @@ class AuthController extends Controller
             info("User is created");
             return ApiResponseClass::sendResponse('Registered','User Registered Successfully!');
         }
+        Log::error("Something Went Wrong");
         return ApiResponseClass::throw('Something Went Wrong!',500);
     }
 
@@ -33,6 +35,7 @@ class AuthController extends Controller
         $user = User::where('email',$validated['email'])->first();
         info("Checking credentials");
         if(!$user || ! Hash::check($validated['password'], $user->password)){
+            Log::error("Wrong Credentials");
             return ApiResponseClass::throw('Wrong Credentials!', 401);
         }
         $token = $user->createToken("API TOKEN FOR " . $user->name);
