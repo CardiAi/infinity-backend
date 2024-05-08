@@ -60,7 +60,7 @@ class RecordController extends Controller
         $response = Http::accept('application/json')->post('https://cardiai-model-c5006df9a332.herokuapp.com/predict',$data);
         if(isset($response['prediction'])){
             $result = $response['prediction'];
-            if($result && ($result >= 0 && $result < 5)){ //validate result
+            if($result >= 0 && $result < 5){ //validate result
                 $data['result'] = $result;
                 $record = DB::transaction(function () use ($data, $patient){
                     $record = $patient->records()->create($data);
