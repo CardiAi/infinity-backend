@@ -36,7 +36,7 @@ Route::get('test', function(){
     return "testing";
 });
 
-
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::fallback(function () {
     return ApiResponseClass::throw('Not Found', 404);
 });
