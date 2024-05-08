@@ -15,23 +15,28 @@ class AuthController extends Controller
 {
 
     public function register(RegisterRequest $request){
+        info("User is trying to sign up");
         $validated = $request->validated();
         $user = User::create($request->safe()->only(['name','email','password']));
         if($user){
             $user->password = Hash::make($validated['password']);
             $user->save();
+            info("User is created");
             return ApiResponseClass::sendResponse('Registered','User Registered Successfully!');
         }
         return ApiResponseClass::throw('Something Went Wrong!',500);
     }
 
     public function login(LoginRequest $request){
+        info("User is trying to login");
         $validated = $request->validated();
         $user = User::where('email',$validated['email'])->first();
+        info("Checking credentials");
         if(!$user || ! Hash::check($validated['password'], $user->password)){
             return ApiResponseClass::throw('Wrong Credentials!', 401);
         }
         $token = $user->createToken("API TOKEN FOR " . $user->name);
+        info("Token generated");
         $result = [
             'user' => new UserResource($user),
             'token' => $token->plainTextToken
