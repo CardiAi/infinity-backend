@@ -69,7 +69,7 @@ class RecordController extends Controller
                     $patient->save();
                     return $record;
                 });
-                return ApiResponseClass::sendResponse(new RecordResource($record),'Record Added Successfully');
+                return ApiResponseClass::sendResponse(new RecordResource($record->load('patient')),'Record Added Successfully');
             }
             return $response;
             return ApiResponseClass::throw('Something Went Wrong!', 500);
