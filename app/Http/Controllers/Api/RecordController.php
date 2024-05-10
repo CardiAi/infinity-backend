@@ -40,14 +40,15 @@ class RecordController extends Controller
             return ApiResponseClass::throw('Invalid ID', 404);
         }
         $validated = $request->validated();
+        //return $validated;
         $data = [
             'chest_pain' => $validated['chest_pain'],
             'blood_pressure' => $validated['blood_pressure']? (int)$validated['blood_pressure']: null,
             'cholesterol' => $validated['cholesterol']? (int)$validated['cholesterol']: null,
             'blood_sugar' => $validated['blood_sugar']>20? true: false,
-            'ecg' => $validated['ecg']? (int)$validated['ecg']: null,
+            'ecg' => $validated['ecg']? $validated['ecg']: null,
             'max_thal' => (int)$validated['max_thal'],
-            'exercise_angina' => $validated['exercise_angina'] = 0? false: true,
+            'exercise_angina' => $validated['exercise_angina'] == "0"? false: true,
             'old_peak' =>(float)$validated['old_peak'],
             'slope' => $validated['slope'],
             'coronary_artery' => (int)$validated['coronary_artery'],
@@ -62,6 +63,7 @@ class RecordController extends Controller
             $result = $response['prediction'];
             if($result >= 0 && $result < 5){ //validate result
                 $data['result'] = $result;
+                $data['exercise_angina'] == true? $data['exercise_angina'] =1: $data['exercise_angina']=0;
                 $record = DB::transaction(function () use ($data, $patient){
                     $record = $patient->records()->create($data);
                     $patient->last_record_date = now();
