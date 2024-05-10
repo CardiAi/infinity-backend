@@ -45,7 +45,7 @@ class RecordController extends Controller
             'chest_pain' => $validated['chest_pain'],
             'blood_pressure' => $validated['blood_pressure']? (int)$validated['blood_pressure']: null,
             'cholesterol' => $validated['cholesterol']? (int)$validated['cholesterol']: null,
-            'blood_sugar' => $validated['blood_sugar']>20? true: false,
+            'blood_sugar' => (int)$validated['blood_sugar']>20? true: false,
             'ecg' => $validated['ecg']? $validated['ecg']: null,
             'max_thal' => (int)$validated['max_thal'],
             'exercise_angina' => $validated['exercise_angina'] == "1"? true: false,
@@ -64,6 +64,8 @@ class RecordController extends Controller
             if($result >= 0 && $result < 5){ //validate result
                 $data['result'] = $result;
                 $data['exercise_angina'] == true? $data['exercise_angina'] =1: $data['exercise_angina']=0;
+                $data['blood_sugar'] = (int)$validated['blood_sugar'];
+                //return $data;
                 $record = DB::transaction(function () use ($data, $patient){
                     $record = $patient->records()->create($data);
                     $patient->last_record_date = now();

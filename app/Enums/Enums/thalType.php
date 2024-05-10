@@ -6,5 +6,5 @@ enum thalType: string
 {
     case NORMAL = 'normal';
     case FIXED_DEFECT = 'fixed defect';
-    case REVERSIBLE_DEFECT = 'reversible defect';
+    case REVERSIBLE_DEFECT = 'reversable defect';
 }
