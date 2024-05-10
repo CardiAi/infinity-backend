@@ -48,7 +48,7 @@ class RecordController extends Controller
             'blood_sugar' => $validated['blood_sugar']>20? true: false,
             'ecg' => $validated['ecg']? $validated['ecg']: null,
             'max_thal' => (int)$validated['max_thal'],
-            'exercise_angina' => $validated['exercise_angina'] == "0"? false: true,
+            'exercise_angina' => $validated['exercise_angina'] == "1"? true: false,
             'old_peak' =>(float)$validated['old_peak'],
             'slope' => $validated['slope'],
             'coronary_artery' => (int)$validated['coronary_artery'],
