@@ -75,10 +75,8 @@ class RecordController extends Controller
                 });
                 return ApiResponseClass::sendResponse(new RecordResource($record->load('patient')),'Record Added Successfully');
             }
-            return $response;
             return ApiResponseClass::throw('Something Went Wrong!', 500);
         }
-        return $response;
         return ApiResponseClass::throw('Something Went Wrong!', 500);
 
     }
